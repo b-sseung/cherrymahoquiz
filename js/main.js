@@ -28,7 +28,7 @@ let figureList = [
 
 
 window.onload = function() {
-  for (var i = 0; i < 1; i++) {
+  for (var i = 0; i < 20; i++) {
     createCircle(i);
   }
 }
@@ -50,6 +50,7 @@ function createCircle(num) {
 
   colors.splice(position, 1);
   circle.value = num;
+  circle.style.zIndex = num;
 
 
   circle.addEventListener("click", function() {
@@ -60,11 +61,43 @@ function createCircle(num) {
     for (var i = 0; i < numberOfShapes; i++) {
       let newElement = document.createElement("img");
       newElement.classList.add("figure");
-      circle.appendChild(newElement);
-  
+      box.appendChild(newElement);
+      newElement.style.zIndex = circle.value - 1;
       newElement.src = figureList[randMax(figureList.length-1)];
+      
+      var left = circle.getBoundingClientRect().left;
+      var top = circle.getBoundingClientRect().top;
+      var half = circle.offsetWidth / 2;
+
+      newElement.style.top = (top + half) + "px";
+      newElement.style.left = (left + half) + "px";
+
       animatedShapes.push(newElement);
     }
+
+    function killShapes() {
+      animatedShapes.forEach((shape) => {
+        box.removeChild(shape);
+      });
+      animateFromLeft(circle.style.backgroundColor);
+    }
+
+    gsap.to(animatedShapes, {
+      onComplete: killShapes,
+      keyframes: [
+        {
+          rotate: "random(180, -180)",
+          x: "random([-150, -100, -200, -250, 250, 200, 100, 150])",
+          y: "random([-150, -100, -200, -250, 250, 200, 100, 150])",
+          ease: "expo.out",
+          duration: 3,
+          stagger: {
+            amount: 0.1
+          }
+        },
+        { opacity: 0, delay: -2 }
+      ]
+    });
   });
 
   dx[num] = 2 * sign[randMinMax(0, 1)];
@@ -108,28 +141,25 @@ function draw(circle) {
 }
 
 
+function animateFromLeft(color) {
+	let tl = gsap.timeline({ ease: "power4.inOut" });
+  tl.set(".container .tile", { background: color });
 
+	tl.to(".container .tile", {
+		duration: 0.4,
+		width: "100%",
+		left: "0%",
+		delay: 0.2,
+		stagger: 0.05,
+	});
 
-	// function killShapes() {
-	// 	animatedShapes.forEach((shape) => {
-	// 		svg.removeChild(shape);
-	// 	});
-	// }
+	tl.to(".container .tile", {
+		duration: 0.4,
+		width: "100%",
+		left: "100%",
+		delay: 0.2,
+		stagger: -0.05,
+	});
 
-
-	// gsap.to(animatedShapes, {
-	// 	onComplete: killShapes,
-	// 	keyframes: [
-	// 		{
-	// 			rotate: "random(180, -180)",
-	// 			x: "random([-150, -100, -200, 200, 100, 150])",
-	// 			y: "random([-150, -100, -200, 200, 100, 150])",
-	// 			ease: "expo.out",
-	// 			duration: 4,
-	// 			stagger: {
-	// 				amount: 0.1
-	// 			}
-	// 		},
-	// 		{ opacity: 0, delay: -3 }
-	// 	]
-	// });
+	tl.set(".container .tile", { left: "0", width: "0" });
+}
