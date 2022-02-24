@@ -1,20 +1,135 @@
 const box = document.querySelector(".mainBox");
 const boxWidth = box.offsetWidth;
 const boxHeight = box.offsetHeight;
+const boxX = box.getBoundingClientRect().left;
+const boxY = box.getBoundingClientRect().top;
+var sign = [-1, 1];
 
-function createCircle() {
-  var circle = document.createElement("div");
-  circle.classList.add("circle");
-  circle.setAttribute("style", "top:" + 100 + "px");
-  box.appendChild(circle);
+var dx = new Array();
+var dy = new Array();
 
-  console.log(document.querySelector(".circle").getBoundingClientRect().top);
+var circles = new Array();
+
+const colors = new Array("#d8d4cb", "#fbc5c3", "#f2c292", "#f6da76",
+  "#b1d690", "#b2dac2", "#97d7d7", "#a6ccdf", "#a7bede", "#cab6d2",
+  "#f1c2cc", "#f8dfd8", "#f2d9ba", "#fdeca7", "#d3ecc5", "#d7ebdf",
+  "#c7e7e6", "#ccdfe6", "#c7d0ed", "#d8ccda");
+
+let numberOfShapes = 10;
+
+let figureList = [
+	"./images/figure1.png",
+	"./images/figure2.png",
+	"./images/figure3.png",
+  "./images/figure4.png",
+  "./images/figure5.png",
+  "./images/figure6.png"
+];
+
+
+window.onload = function() {
+  for (var i = 0; i < 1; i++) {
+    createCircle(i);
+  }
 }
 
-function rand(max) {
+function createCircle(num) {
+  var circle = document.createElement("div");
+  circle.classList.add("circle");
+  box.appendChild(circle);
+  
+  var temp = randMinMax(10, 50);
+  circle.style.width = temp + "vmin";
+  circle.style.height = temp + "vmin";
+
+  circle.style.top = randMax(boxHeight - circle.offsetHeight) + "px";
+  circle.style.left = randMax(boxWidth - circle.offsetWidth) + "px";
+
+  var position = randMinMax(0, colors.length-1);
+  circle.style.backgroundColor = colors[position];
+
+  colors.splice(position, 1);
+  circle.value = num;
+
+
+  circle.addEventListener("click", function() {
+
+    clearInterval(interval);
+    let animatedShapes = [];
+
+    for (var i = 0; i < numberOfShapes; i++) {
+      let newElement = document.createElement("img");
+      newElement.classList.add("figure");
+      circle.appendChild(newElement);
+  
+      newElement.src = figureList[randMax(figureList.length-1)];
+      animatedShapes.push(newElement);
+    }
+  });
+
+  dx[num] = 2 * sign[randMinMax(0, 1)];
+  dy[num] = 2 * sign[randMinMax(0, 1)];
+
+  var interval = setInterval(draw, 10, circle);
+}
+
+function randMax(max) {
   return Math.floor(Math.random() * max) + 1;
 }
 
-window.onload = function() {
-  createCircle();
+function randMinMax(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+
+
+function draw(circle) {
+
+  var rect = circle.getBoundingClientRect();
+  var x = rect.left; 
+  var y = rect.top;
+  var size = circle.offsetWidth;
+  var num = circle.value;
+  var xTemp = dx[num];
+  var yTemp = dy[num];
+
+  if(x + xTemp < boxX || x + xTemp > boxX + boxWidth - size) {
+    dx[num] = -dx[num];
+    xTemp = -xTemp;
+  }
+  if(y + yTemp < boxY || y + yTemp > boxY + boxHeight - size) {
+    dy[num] = -dy[num];
+    yTemp = -yTemp;
+  }
+    
+  circle.style.top = (y + yTemp) + "px";
+  circle.style.left = (x + xTemp) + "px";
+  
+}
+
+
+
+
+	// function killShapes() {
+	// 	animatedShapes.forEach((shape) => {
+	// 		svg.removeChild(shape);
+	// 	});
+	// }
+
+
+	// gsap.to(animatedShapes, {
+	// 	onComplete: killShapes,
+	// 	keyframes: [
+	// 		{
+	// 			rotate: "random(180, -180)",
+	// 			x: "random([-150, -100, -200, 200, 100, 150])",
+	// 			y: "random([-150, -100, -200, 200, 100, 150])",
+	// 			ease: "expo.out",
+	// 			duration: 4,
+	// 			stagger: {
+	// 				amount: 0.1
+	// 			}
+	// 		},
+	// 		{ opacity: 0, delay: -3 }
+	// 	]
+	// });
