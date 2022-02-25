@@ -10,6 +10,8 @@ var dy = new Array();
 
 var circles = new Array();
 
+console.log(boxX + ", " + boxY);
+
 const colors = new Array("#d8d4cb", "#fbc5c3", "#f2c292", "#f6da76",
   "#b1d690", "#b2dac2", "#97d7d7", "#a6ccdf", "#a7bede", "#cab6d2",
   "#f1c2cc", "#f8dfd8", "#f2d9ba", "#fdeca7", "#d3ecc5", "#d7ebdf",
@@ -26,21 +28,39 @@ let figureList = [
   "./images/figure6.png"
 ];
 
-var passArr = JSON.parse(sessionStorage.getItem("pass"));
+// var passArr = JSON.parse(sessionStorage.getItem("pass"));
+var passArr = new Array();
+/*삭제하기*/
+for(var i = 0; i < 20; i++) {
+  passArr[i] = true;
+}
+/*passArr이 null이면 잘못된 접근*/
 
 var clickValue = true;
+const eventBox = document.querySelector(".eventBox");
+const eventButton = document.querySelector(".eventButton");
 
 window.onload = function() {
+  eventBox.style.display = "none";
+
   for (var i = 0; i < 20; i++) {
     createCircle(i);
   }
 
-  console.log(passArr);
+  var clearCheck = true;
   for (var i = 0; i < 20; i++) {
-    if (passArr[i]) box.removeChild(circles[i]);
+    if (passArr[i]) {
+      box.removeChild(circles[i]);
+    } else {
+      clearCheck = false;
+    }
+  }
+
+  if (clearCheck) {
+    circleHidden();
+    eventBox.style.display = "block";
   }
 }
-
 function createCircle(num) {
   var circle = document.createElement("div");
   circle.classList.add("circle");
@@ -50,8 +70,10 @@ function createCircle(num) {
   circle.style.width = temp + "vmin";
   circle.style.height = temp + "vmin";
 
-  circle.style.top = randMax(boxHeight - circle.offsetHeight) + "px";
-  circle.style.left = randMax(boxWidth - circle.offsetWidth) + "px";
+  var topTemp = randMax(boxHeight - circle.offsetHeight) + boxY;
+  var leftTemp = randMax(boxWidth - circle.offsetWidth) + boxX;
+  circle.style.top = topTemp + "px";
+  circle.style.left = leftTemp + "px";
 
   var position = randMinMax(0, colors.length-1);
   circle.style.backgroundColor = colors[position];
@@ -148,11 +170,11 @@ function draw(circle) {
     
   circle.style.top = (y + yTemp) + "px";
   circle.style.left = (x + xTemp) + "px";
-  
 }
 
 function circleHidden() {
   box.style.display = "none";
+  document.querySelector(".titleBox").style.display = "none";
 }
 
 function openQuiz(num) {

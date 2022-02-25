@@ -11,17 +11,38 @@ body {
 
   width: 100vw;
   height: 100vh;
-
   overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.titleBox {
+  font-family: 'GangwonEdu_OTFLightA';
+  font-size: 4vmin;
+  text-align: center;
+
+  width: 100%;
+  height: 10vh;
+
+  margin: 2.5vh 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  margin: 0;
 }
 
 .mainBox {
-  width: 100%;
-  height: 100%;
+  width: 90vw;
+  height: 85vh;
 
   overflow: hidden;
 
-  position: absolute;
+  margin: 0 auto;
 }
 
 .circle {
@@ -67,3 +88,4 @@ body {
   height: 100%;
 	width: 0%;
 }
+

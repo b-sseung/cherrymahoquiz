@@ -5,7 +5,8 @@ window.onload = function() {
   }
 
   sessionStorage.setItem("pass", JSON.stringify(passArr));
-
+  sessionStorage.setItem("score", 0);
+  
   const firstDiv = document.querySelector(".first");
   const secondDiv = document.querySelector(".second");
   const secondImage = document.querySelector(".second-image");

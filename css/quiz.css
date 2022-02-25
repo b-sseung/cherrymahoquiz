@@ -59,6 +59,8 @@ body {
   object-fit: contain;
 
   margin-right: 10vmin;
+
+  cursor: pointer;
 }
 
 .quizContent {
@@ -96,14 +98,14 @@ body {
   font-size: 3vmin;
   color: white;
   font-weight: bold;
+
 }
 
 .hintContent {
   width: 100%;
-  height: 0px;
+  height: 0;
   font-size: 3vmin;
 
-  z-index: 1;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -138,16 +140,30 @@ body {
 }
 
 .quizAnswer {
-  
+  font-size: 3vmin;
+
   height: 5vmin;
 
   margin-top: 5vh;
   margin-bottom: 10vh;
 
   display: flex;
-  
+  justify-content: center;
+  align-items: center;
 }
 
 .answerArea {
+  margin: 0 1vmin;
+  border: none;
+  border-bottom: 1px dashed gray;
+}
 
+.answerButton {
+  font-family: 'GangwonEdu_OTFLightA';
+  font-size: 3vmin;
+
+  background: transparent;
+  border: none;
+
+  cursor: pointer;
 }
