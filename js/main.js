@@ -26,10 +26,18 @@ let figureList = [
   "./images/figure6.png"
 ];
 
+var passArr = JSON.parse(sessionStorage.getItem("pass"));
+
+var clickValue = true;
 
 window.onload = function() {
   for (var i = 0; i < 20; i++) {
     createCircle(i);
+  }
+
+  console.log(passArr);
+  for (var i = 0; i < 20; i++) {
+    if (passArr[i]) box.removeChild(circles[i]);
   }
 }
 
@@ -51,10 +59,12 @@ function createCircle(num) {
   colors.splice(position, 1);
   circle.value = num;
   circle.style.zIndex = num;
-
+  circles[num] = circle;
 
   circle.addEventListener("click", function() {
+    if (!clickValue) return;
 
+    clickValue = false;
     clearInterval(interval);
     let animatedShapes = [];
 
@@ -75,11 +85,12 @@ function createCircle(num) {
       animatedShapes.push(newElement);
     }
 
+    setTimeout(animateFromLeft, 1000, circle.style.backgroundColor, circle.value);
+
     function killShapes() {
       animatedShapes.forEach((shape) => {
         box.removeChild(shape);
       });
-      animateFromLeft(circle.style.backgroundColor);
     }
 
     gsap.to(animatedShapes, {
@@ -140,26 +151,47 @@ function draw(circle) {
   
 }
 
+function circleHidden() {
+  box.style.display = "none";
+}
 
-function animateFromLeft(color) {
+function openQuiz(num) {
+  sessionStorage.setItem("level", num + 1);
+
+  window.location.href = "./quiz.html";
+}
+
+function animateFromLeft(color, num) {
 	let tl = gsap.timeline({ ease: "power4.inOut" });
+
   tl.set(".container .tile", { background: color });
 
-	tl.to(".container .tile", {
-		duration: 0.4,
-		width: "100%",
-		left: "0%",
-		delay: 0.2,
-		stagger: 0.05,
-	});
+  tl.to(".container .tile", {
+    onComplete: circleHidden,
+    keyframes: [
+      {
+        duration: 0.4,
+        width: "100%",
+        left: "0%",
+        delay: 0.2,
+        stagger: 0.05
+      }
+    ]
+  });
 
-	tl.to(".container .tile", {
-		duration: 0.4,
-		width: "100%",
-		left: "100%",
-		delay: 0.2,
-		stagger: -0.05,
-	});
+  tl.to(".container .tile", {
+    onComplete: openQuiz,
+    onCompleteParams: [num],
+    keyframes: [
+      {
+        duration: 0.4,
+        width: "100%",
+        left: "100%",
+        delay: 0.2,
+        stagger: -0.05
+      }
+    ]
+  });
 
 	tl.set(".container .tile", { left: "0", width: "0" });
 }

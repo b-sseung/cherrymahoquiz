@@ -1,4 +1,11 @@
 window.onload = function() {
+  var passArr = new Array();
+  for (var i = 0; i < 20; i++) {
+    passArr[i] = false;
+  }
+
+  sessionStorage.setItem("pass", JSON.stringify(passArr));
+
   const firstDiv = document.querySelector(".first");
   const secondDiv = document.querySelector(".second");
   const secondImage = document.querySelector(".second-image");
