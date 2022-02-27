@@ -8,7 +8,12 @@
   <link rel="shortcut icon" type="image/x-icon" href="images/titleicon.png">
   <link rel="stylesheet" href="css/main.css">
   <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/confetti_v2.js"></script>
+  <script type="module" src="js/firebase.js"></script>
   <script src="https://unpkg.co/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 </head>
 <body>
   <div class="titleBox">
@@ -24,7 +29,15 @@
     <span class="tile"></span>
   </div>
   <div class="eventBox">
-    <p class="eventLabel"></p>
-    <button class="eventButton">확인</button>
+    <p class="eventLabel">축하합니다!</br>20개의 문제를 모두 풀었습니다!</br>트위터 아이디를 입력하고,</br>이벤트에 참여해주세요.
+    </p>
+    <div class="idBox">
+      <p class="eventId">트위터 아이디 입력하기</p>
+      <p class="idCover"></p>
+    </div>
   </div>
+  <div class="buttonBox">
+    <button class="eventButton">나의 랭킹 확인하기</button>
+  </div>
+  <canvas id="canvas"></canvas>
 </body>

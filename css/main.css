@@ -89,3 +89,75 @@ body {
 	width: 0%;
 }
 
+/*이벤트 버튼*/
+.eventBox, .buttonBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+	height: 100%;
+  
+  font-family: 'GangwonEdu_OTFLightA';
+}
+
+.eventLabel {
+  font-size: 3vmin;
+  color: black;
+  text-align: center;
+
+  height: 20vmin;
+  line-height: 5vmin;
+}
+
+.idBox {
+  display: flex;
+  position: relative;
+
+  overflow: hidden;
+}
+
+.eventId {
+  font-size: 3vmin;
+  color: gray;
+
+  border-bottom: 1px dotted gray;
+  
+  margin: 10vmin 0;
+  padding: 0 10vmin;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+}
+
+.idCover {
+  box-sizing: border-box;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: white;
+}
+
+.eventButton {
+  font-family: 'GangwonEdu_OTFLightA';
+  font-size: 3vmin;
+  text-align: center;
+  color: white;
+
+
+  padding: 3vmin 10vmin;
+
+  border: none;
+  border-radius: 999999px;
+
+  background-color: #f3cadc;
+
+  cursor: pointer;
+}
+
+#canvas {
+  position: absolute;
+  pointer-events: none;
+}

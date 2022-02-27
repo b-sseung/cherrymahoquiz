@@ -1,3 +1,6 @@
+import { RestartConfetti, DeactivateConfetti } from "./confetti_v2.js";
+import { addRanking } from "./firebase.js";
+
 const box = document.querySelector(".mainBox");
 const boxWidth = box.offsetWidth;
 const boxHeight = box.offsetHeight;
@@ -38,10 +41,18 @@ for(var i = 0; i < 20; i++) {
 
 var clickValue = true;
 const eventBox = document.querySelector(".eventBox");
+const eventLabel = document.querySelector(".eventLabel");
+
+const idBox = document.querySelector(".idBox");
+const eventId = document.querySelector(".eventId");
+const idCover = document.querySelector(".idCover");
+
+const buttonBox = document.querySelector(".buttonBox");
 const eventButton = document.querySelector(".eventButton");
 
 window.onload = function() {
   eventBox.style.display = "none";
+  buttonBox.style.display = "none";
 
   for (var i = 0; i < 20; i++) {
     createCircle(i);
@@ -58,9 +69,85 @@ window.onload = function() {
 
   if (clearCheck) {
     circleHidden();
-    eventBox.style.display = "block";
+    RestartConfetti();
+    setTimeout(DeactivateConfetti, 5500);
+
+    eventBox.style.display = "flex";
+
+    var text = eventLabel.innerHTML.split("<br>");
+    eventLabel.innerHTML = "";
+
+    var tTime = 0;
+
+    for (var i = 0; i < text.length; i++) {
+      tTime = typingText(tTime, text[i], i);
+    }
+
+    setTimeout(function() {
+      gsap.to(idCover,{
+        duration: 2,
+        left: idBox.offsetWidth
+      });
+    }, tTime);
   }
+
+  eventId.addEventListener("click", function() {
+    var id = prompt("아이디를 입력해주세요.");
+    if (id != "" && id != null){
+      if (id.indexOf("@") == -1) {
+        id = "@" + id;
+      }
+      
+      addRanking(id);
+
+      var timeline = gsap.timeline({ linear: Linear.easeNone });
+      
+      timeline.to(eventBox, {
+        duration: 1,
+        opacity: 0
+      });
+
+      timeline.set(eventBox, {
+        display: "none"
+      });
+
+      timeline.set(buttonBox, {
+        display: "flex",
+        opacity: 0
+      });
+
+      timeline.to(buttonBox, {
+        duration: 1,
+        opacity: 1
+      })
+    }
+  });
+
+  eventButton.addEventListener("click", function() {
+    window.location.href = "./rank.html";
+  })
 }
+
+function typingText(tTime, text, num) {
+  var tSplit = text.split("");
+  var timeTemp = tTime;
+
+  if (num != 3) {
+    tSplit.push("<br>");
+  }
+
+  for (var i = 0; i < tSplit.length; i++) {
+    setTimeout(function(temp) {
+      eventLabel.innerHTML += temp;
+      console.log(timeTemp);
+    }, timeTemp, tSplit[i]);
+
+    timeTemp += 100;
+  }
+
+  return timeTemp;
+}
+
 function createCircle(num) {
   var circle = document.createElement("div");
   circle.classList.add("circle");
