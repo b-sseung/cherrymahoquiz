@@ -1,4 +1,4 @@
-import { createList } from "./rank.js";
+import { createRankBox } from "./rank.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDA5DTsAR4q9KNfjvMLVrqoPwvT2ADdwiA",
@@ -10,7 +10,8 @@ const firebaseConfig = {
     measurementId: "G-BZSSDFKSYS"
 };
 
-var map = new Map();
+var map = [];
+var number = new Map();
 
 firebase.initializeApp(firebaseConfig);
 
@@ -30,10 +31,11 @@ function createDate() {
     return (year + "." + month + "." + day + " " + hour + ":" + minute + ":" + second);
 }
 
-function addRanking(id) {
+function addRanking(id, score) {
     var date = createDate();
-    db.collection("rank").doc(date).set({
-        id : id
+    db.collection("rank").doc(id).set({
+        time: date,
+        score: score
     })
     .then(() => {
         console.log("Document successfully written!");
@@ -44,21 +46,41 @@ function addRanking(id) {
 }
 
 function readRankList() {
-    db.collection("ranklist").doc("list").get().then((doc) => {
+    db.collection("ranklist").doc("time").get().then((doc) => {
         if (doc.exists) {
             var data = doc.data();
 
             var keys = Object.keys(data);
 
             for (var i = 0; i < keys.length; i++) {
-                map.set(keys[i], data[keys[i]]);
+                var p = map.length;
+
+                number.set(keys[i], p);
+                map[p] = {};
+                map[p].id = keys[i];
+                map[p].time = data[keys[i]];
             }
         }
     }).catch((error) => {
         console.log("Error getting document:", error);
     });
 
-    readRank();
+    db.collection("ranklist").doc("score").get().then((doc) => {
+        if (doc.exists) {
+            var data = doc.data();
+
+            var keys = Object.keys(data);
+
+            for (var i = 0; i < keys.length; i++) {
+                map[number.get(keys[i])].score = Number(data[keys[i]]);
+            }
+        }
+        readRank();
+
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+
 }
 
 function readRank() {
@@ -67,21 +89,53 @@ function readRank() {
             var id = doc.id;
             var data = doc.data();
 
-            if (map.get(id) != null) {
-                var a = map.get(id);
-                var b = data["id"];
+            if (map[number.get(id)] != null) {
 
-                if (a < b) {
-                    map.set(id, b);
+                var aScore = map[number.get(id)].score;
+
+                var bTime = data["time"];
+                var bScore = Number(data["score"]);
+
+                if (aScore < bScore) {
+                    map[number.get(id)].score = bScore;
+                    map[number.get(id)].time = bTime;
                 }
 
                 return;
             }
-
-            map.set(id, data["id"]);
+            
+            var p = map.length;
+            number.set(id, p);
+            map[p] = {};
+            map[p].id = id;
+            map[p].time = data["time"];
+            map[p].score = Number(data["score"]);
         });
+        
+        sortData();
     });
-    createList(map);
+
+}
+
+
+function sortData() {
+    console.log(map.length);
+
+    map.sort(function(a, b) {
+        if (a.score < b.score) {
+            return 1;
+        } else if (a.score == b.score) {
+            if (a.time >= b.time) {
+                return 1;
+            } else {
+                return -1;
+            }
+        } else {
+            return -1;
+        }
+    });
+
+    createRankBox(map);
 }
 
 export{ addRanking, readRankList };

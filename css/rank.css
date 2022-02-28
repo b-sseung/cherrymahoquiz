@@ -1,0 +1,125 @@
+@font-face {
+  font-family: 'GangwonEdu_OTFLightA';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFLightA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  width: 100vw;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.headerBox {
+  width: 100%;
+
+  font-family: 'GangwonEdu_OTFLightA';
+
+  border-bottom: 1px solid black;
+  position: fixed;
+}
+
+.headerText {
+  text-align: center;
+  font-size: 5vmin;
+  font-weight: bold;
+}
+
+.home {
+  position: fixed;
+  width: 100%;
+
+  font-size: 3vmin;
+
+  cursor: pointer;
+
+  text-align: right;
+  margin: 0;
+
+  right: 5vmin;
+}
+
+.rankTitle {
+  width: 100%;
+
+  font-family: 'GangwonEdu_OTFLightA';
+  font-size: 3vmin;
+
+  border-bottom: 1px dashed gray;
+
+  width: 100%;
+  padding: 1vmin 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  position: fixed;
+}
+
+.rankTitle .num {
+  width: 8vmin;
+
+}
+
+.rankTitle .id {
+  width: 57vmin;
+  
+}
+
+.rankTitle .score {
+  width: 15vmin;
+  
+}
+
+.rankBox {
+  font-family: 'GangwonEdu_OTFLightA';
+    
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+}
+
+.rank {
+  border-bottom: 1px dashed gray;
+
+  font-size: 2vmin;
+
+  width: 100%;
+  padding: 1vmin 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.rankNum {
+  width: 8vmin;
+}
+
+.rankId {
+  width: 57vmin;
+}
+
+.rankScore {
+  width: 15vmin;
+}
+
+.myRank {
+  font-family: 'GangwonEdu_OTFLightA';
+  background: #bbe3f120;
+
+  position: fixed;
+
+  cursor: pointer;
+}

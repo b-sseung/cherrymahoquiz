@@ -2,10 +2,11 @@ import { RestartConfetti, DeactivateConfetti } from "./confetti_v2.js";
 import { addRanking } from "./firebase.js";
 
 const box = document.querySelector(".mainBox");
-const boxWidth = box.offsetWidth;
-const boxHeight = box.offsetHeight;
-const boxX = box.getBoundingClientRect().left;
-const boxY = box.getBoundingClientRect().top;
+var boxWidth = box.offsetWidth;
+var boxHeight = box.offsetHeight;
+var boxX = box.getBoundingClientRect().left;
+var boxY = box.getBoundingClientRect().top;
+
 var sign = [-1, 1];
 
 var dx = new Array();
@@ -13,7 +14,6 @@ var dy = new Array();
 
 var circles = new Array();
 
-console.log(boxX + ", " + boxY);
 
 const colors = new Array("#d8d4cb", "#fbc5c3", "#f2c292", "#f6da76",
   "#b1d690", "#b2dac2", "#97d7d7", "#a6ccdf", "#a7bede", "#cab6d2",
@@ -31,13 +31,17 @@ let figureList = [
   "./images/figure6.png"
 ];
 
-// var passArr = JSON.parse(sessionStorage.getItem("pass"));
-var passArr = new Array();
-/*삭제하기*/
-for(var i = 0; i < 20; i++) {
-  passArr[i] = true;
+var passArr = JSON.parse(sessionStorage.getItem("pass"));
+if (passArr == null) {
+  alert("잘못된 접근입니다.");
+  window.location.href = "./entrance.html";
 }
-/*passArr이 null이면 잘못된 접근*/
+
+// var passArr = new Array();
+// /*삭제하기*/
+// for(var i = 0; i < 20; i++) {
+//   passArr[i] = true;
+// }
 
 var clickValue = true;
 const eventBox = document.querySelector(".eventBox");
@@ -54,6 +58,11 @@ window.onload = function() {
   eventBox.style.display = "none";
   buttonBox.style.display = "none";
 
+  boxWidth = box.offsetWidth;
+  boxHeight = box.offsetHeight;
+  boxX = box.getBoundingClientRect().left;
+  boxY = box.getBoundingClientRect().top;
+  
   for (var i = 0; i < 20; i++) {
     createCircle(i);
   }
@@ -98,7 +107,11 @@ window.onload = function() {
         id = "@" + id;
       }
       
-      addRanking(id);
+      var score = sessionStorage.getItem("score");
+
+      sessionStorage.setItem("id", id);
+
+      addRanking(id, score);
 
       var timeline = gsap.timeline({ linear: Linear.easeNone });
       
@@ -157,8 +170,10 @@ function createCircle(num) {
   circle.style.width = temp + "vmin";
   circle.style.height = temp + "vmin";
 
+  
   var topTemp = randMax(boxHeight - circle.offsetHeight) + boxY;
   var leftTemp = randMax(boxWidth - circle.offsetWidth) + boxX;
+  
   circle.style.top = topTemp + "px";
   circle.style.left = leftTemp + "px";
 

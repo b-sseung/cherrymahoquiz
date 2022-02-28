@@ -202,6 +202,13 @@ body {
 .toggleBtn3 {
   background: white;
   display: block;
+  margin-bottom: 5vmin;
+}
+
+.toggleBtn4 {
+  background: red;
+  color: white;
+  display: block;
 }
 
 .btn {

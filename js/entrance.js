@@ -38,6 +38,7 @@ window.onload = function() {
   const inside1Close2 = document.getElementById("close2");
 
   const toggleBtn3 = document.querySelector(".toggleBtn3");
+  const toggleBtn4 = document.querySelector(".toggleBtn4");
 
   mToggle1.addEventListener("change", function() {
     if (mToggle1.checked) {
@@ -77,5 +78,13 @@ window.onload = function() {
 
   toggleBtn3.addEventListener("animationend", function(){
     window.location.href = "./main.html"
+  });
+
+  toggleBtn4.addEventListener("click", function() {
+    toggleBtn4.style.animationName = "btnExpand";
+  });
+
+  toggleBtn4.addEventListener("animationend", function(){
+    window.location.href = "./rank.html"
   });
 }

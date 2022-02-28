@@ -95,10 +95,15 @@ body {
   margin-top: 2vmin;
   margin-left: 2vmin;
 
+  font-size: 2vmin;
+  color: white;
+}
+
+.quizScript {
+  position: absolute;
+
   font-size: 3vmin;
   color: white;
-  font-weight: bold;
-
 }
 
 .hintContent {
@@ -129,7 +134,7 @@ body {
   text-align: left;
 
   color: black;
-  font-size: 5vmin;
+  font-size: 3vmin;
 
   border: 1px dashed gray;
   border-radius: 20px;
@@ -156,6 +161,7 @@ body {
   margin: 0 1vmin;
   border: none;
   border-bottom: 1px dashed gray;
+  height: 100%;
 }
 
 .answerButton {

@@ -50,10 +50,10 @@ body {
   position: absolute;
 
   background: black;
-
+/* 
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 }
 
 .figure {
