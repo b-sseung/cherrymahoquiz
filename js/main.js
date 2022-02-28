@@ -33,7 +33,7 @@ let figureList = [
 
 var passArr = JSON.parse(sessionStorage.getItem("pass"));
 if (passArr == null) {
-  alert("잘못된 접근입니다.");
+  alert(decodeURI("%EC%9E%98%EB%AA%BB%EB%90%9C%20%EC%A0%91%EA%B7%BC%EC%9E%85%EB%8B%88%EB%8B%A4.")); //잘못된 접근입니다.
   window.location.href = "./entrance.html";
 }
 
@@ -58,6 +58,9 @@ window.onload = function() {
   eventBox.style.display = "none";
   buttonBox.style.display = "none";
 
+  document.querySelector(".titleBox").style.display = "flex";
+  box.style.display = "block";
+  
   boxWidth = box.offsetWidth;
   boxHeight = box.offsetHeight;
   boxX = box.getBoundingClientRect().left;
@@ -101,7 +104,7 @@ window.onload = function() {
   }
 
   eventId.addEventListener("click", function() {
-    var id = prompt("아이디를 입력해주세요.");
+    var id = prompt(decodeURI("%EC%95%84%EC%9D%B4%EB%94%94%EB%A5%BC%20%EC%9E%85%EB%A0%A5%ED%95%B4%EC%A3%BC%EC%84%B8%EC%9A%94.")); //아이디를 입력해주세요.
     if (id != "" && id != null){
       if (id.indexOf("@") == -1) {
         id = "@" + id;
