@@ -23,6 +23,8 @@ body {
 
   border-bottom: 1px solid black;
   position: fixed;
+  
+  background: white;
 }
 
 .headerText {
@@ -62,6 +64,8 @@ body {
   text-align: center;
 
   position: fixed;
+
+  background: white;
 }
 
 .rankTitle .num {
@@ -119,7 +123,7 @@ body {
 
 .myRank {
   font-family: 'GangwonEdu_OTFLightA';
-  background: #bbe3f120;
+  background: #f6fbfd;
 
   position: fixed;
 
